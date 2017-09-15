@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "292583822552",
+    "firebase_url": "https://timata-87036.firebaseio.com",
+    "project_id": "timata-87036",
+    "storage_bucket": "timata-87036.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:292583822552:android:7d9a343fc5374359",
+        "android_client_info": {
+          "package_name": "com.example.sony.timata"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "292583822552-s3k02vrp6qcj1nmr3i9pugdkf69ks3o9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.sony.timata",
+            "certificate_hash": "85937bb6608498cf1f29faa6fc4677d107ff832e"
+          }
+        },
+        {
+          "client_id": "292583822552-f7ahouf63u2qaqcco27jrcee82jlitdi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBlnppGefwz5CCDeSf8gqn6slJCUcnu4bs"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "292583822552-f7ahouf63u2qaqcco27jrcee82jlitdi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
