@@ -11,13 +11,12 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="29dp"
         android:layout_marginTop="118dp"
-        android:text="Login to your Account!!!"
+        android:text="Login to your account!!"
         android:textColor="@android:color/black"
-        android:textSize="28sp" />
+        android:textSize="28sp"
+        android:layout_alignStart="@+id/login_email" />
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/login_email"
