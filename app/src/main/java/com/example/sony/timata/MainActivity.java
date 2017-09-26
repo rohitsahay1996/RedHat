@@ -13,6 +13,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
 
 public class MainActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
@@ -50,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         if(current_user == null){
            sendToStart();
         } else {
-            mRef.child("online").setValue(true);
+            mRef.child("online").setValue("true");
         }
     }
 
@@ -59,7 +60,8 @@ public class MainActivity extends AppCompatActivity {
         super.onStop();
         FirebaseUser current_user = mAuth.getCurrentUser();
         if (current_user != null) {
-            mRef.child("online").setValue(false);
+            mRef.child("online").setValue(ServerValue.TIMESTAMP);
+
         }
 
 

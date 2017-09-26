@@ -85,11 +85,11 @@ public class FriendFragment extends Fragment {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
 
-                        String user_name = dataSnapshot.child("name").getValue().toString();
+                        final String user_name = dataSnapshot.child("name").getValue().toString();
                         String ThumbImage = dataSnapshot.child("thumb_image").getValue().toString();
 
                         if (dataSnapshot.hasChild("online")) {
-                            Boolean userOnline = (Boolean) dataSnapshot.child("online").getValue();
+                            String userOnline = dataSnapshot.child("online").getValue().toString();
                             viewHolder.setUserOnline(userOnline);
                         }
                         viewHolder.setName(user_name);
@@ -119,6 +119,7 @@ public class FriendFragment extends Fragment {
                                             //Sending message
                                             Intent chatIntent = new Intent(getContext(), ChatActivity.class);
                                             chatIntent.putExtra("user_id", list_user_id);
+                                            chatIntent.putExtra("user_name", user_name);
                                             startActivity(chatIntent);
                                         }
 
@@ -171,10 +172,10 @@ public class FriendFragment extends Fragment {
 
         }
 
-        public void setUserOnline(Boolean online_status) {
+        public void setUserOnline(String online_status) {
             ImageView userOnlineImg = (ImageView) mViewHolder.findViewById(R.id.user_single_online_icon);
 
-            if (online_status == true) {
+            if (online_status.equals("true")) {
 
                 userOnlineImg.setVisibility(View.VISIBLE);
 
