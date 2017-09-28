@@ -3,19 +3,16 @@ package com.example.sony.timata;
 import android.app.ProgressDialog;
 import android.icu.text.DateFormat;
 import android.os.Build;
-import android.support.annotation.NonNull;
+import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -24,8 +21,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
-
-import org.w3c.dom.Text;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -123,8 +118,9 @@ public class ProfileActivity extends AppCompatActivity {
                                         mProfileSendRequestBtn.setText("Unfriend this person");
                                         mDeclinebtn.setVisibility(View.INVISIBLE);
                                         mDeclinebtn.setEnabled(false);
-                                        mProgressDialog.dismiss();
+
                                     }
+                                    mProgressDialog.dismiss();
                                 }
 
                                 @Override
@@ -193,6 +189,42 @@ public class ProfileActivity extends AppCompatActivity {
 
 
                  }
+                   /* ----------Friends Received State----------- */
+                if (mCurrent_State.equals("req_received")) {
+
+                    final String currentDate = DateFormat.getDateTimeInstance().format(new Date());
+
+                    Map friendsMap = new HashMap();
+                    friendsMap.put("Friends/" + mCurrentUser.getUid() + "/" + user_id + "/date", currentDate);
+                    friendsMap.put("Friends/" + user_id + "/" + mCurrentUser.getUid() + "/date", currentDate);
+
+                    friendsMap.put("Friend_req/" + mCurrentUser.getUid() + "/" + user_id, null);
+                    friendsMap.put("Friend_req/" + user_id + "/" + mCurrentUser.getUid(), null);
+
+                    mRootRef.updateChildren(friendsMap, new DatabaseReference.CompletionListener() {
+                        @Override
+                        public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+
+                            if (databaseError == null) {
+
+                                mProfileSendRequestBtn.setEnabled(true);
+                                mCurrent_State = "friends";
+                                mProfileSendRequestBtn.setText("unfriend this person");
+
+
+                                mDeclinebtn.setVisibility(View.INVISIBLE);
+                                mDeclinebtn.setEnabled(false);
+                            } else {
+
+                                String error = databaseError.getMessage();
+                                Toast.makeText(ProfileActivity.this, "error", Toast.LENGTH_SHORT).show();
+                            }
+
+
+                        }
+                    });
+
+                }
                            /* ------------ CANCEL FRIEND STATE------------ */
 
                    if(mCurrent_State.equals("req_sent")){
@@ -216,43 +248,7 @@ public class ProfileActivity extends AppCompatActivity {
                            }
                        });
                    }
-                   /* ----------Friends Received State----------- */
-                   if(mCurrent_State.equals("req_received")){
 
-                       final String currentDate = DateFormat.getDateTimeInstance().format(new Date());
-
-                       Map friendsMap = new HashMap();
-                       friendsMap.put("Friends/" + mCurrentUser.getUid() + "/" + user_id + "/date",currentDate);
-                       friendsMap.put("Friends/" + user_id + "/" +mCurrentUser.getUid() + "/date",currentDate);
-
-                       friendsMap.put("Friend_req/" + mCurrentUser.getUid() + "/" + user_id, null);
-                       friendsMap.put("Friend_req/" + user_id + "/" +mCurrentUser.getUid(), null);
-
-                       mRootRef.updateChildren(friendsMap, new DatabaseReference.CompletionListener() {
-                           @Override
-                           public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-
-                               if(databaseError == null){
-
-                                   mProfileSendRequestBtn.setEnabled(true);
-                                   mCurrent_State="friends";
-                                   mProfileSendRequestBtn.setText("unfriend this person");
-
-
-                                   mDeclinebtn.setVisibility(View.INVISIBLE);
-                                   mDeclinebtn.setEnabled(false);
-                               }
-                               else{
-
-                                   String error = databaseError.getMessage();
-                                   Toast.makeText(ProfileActivity.this, "error", Toast.LENGTH_SHORT).show();
-                               }
-
-
-                           }
-                       });
-
-                   }
 
                    //  ---------------- Unfriend
 
@@ -269,7 +265,9 @@ public class ProfileActivity extends AppCompatActivity {
                             if(databaseError == null){
 
 
-                                mCurrent_State="not_friends";
+                                mProfileSendRequestBtn.setEnabled(true);
+                                mCurrent_State = "friends";
+                                mProfileSendRequestBtn.setText("Unfriend this person");
                                 mProfileSendRequestBtn.setText("send Friend Req");
 
 
