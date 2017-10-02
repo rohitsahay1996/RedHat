@@ -57,6 +57,7 @@ public class ChatActivity extends AppCompatActivity {
     //New Solution
     private int itemPOS = 0;
     private String mLastKey = "";
+    private String mPrevKey = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -203,11 +204,24 @@ public class ChatActivity extends AppCompatActivity {
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
                 messages Message1 = dataSnapshot.getValue(messages.class);
-                messagesList.add(itemPOS++, Message1);
-                if (itemPOS == 1) {
-                    String messageKey = dataSnapshot.getKey();
-                    mLastKey = messageKey;
+                String messageKey = dataSnapshot.getKey();
+
+                if (!mPrevKey.equals(messageKey)) {
+
+                    messagesList.add(itemPOS++, Message1);
+
+                } else {
+                    mPrevKey = mLastKey;
                 }
+                if (itemPOS == 1) {
+
+                    mLastKey = messageKey;
+
+
+                }
+
+
+                Log.d("TOTALKEYS", "Last Key: " + mLastKey + "| Prev Key: " + mPrevKey + "| Message Key: " + messageKey);
                 mAdapter.notifyDataSetChanged();
                 mMessagesList.scrollToPosition(messagesList.size() - 1);
                 mRefreshLayout.setRefreshing(false);
@@ -255,6 +269,7 @@ public class ChatActivity extends AppCompatActivity {
                 if (itemPOS == 1) {
                     String messageKey = dataSnapshot.getKey();
                     mLastKey = messageKey;
+                    mPrevKey = messageKey;
                 }
                 messagesList.add(Message1);
                 mAdapter.notifyDataSetChanged();
